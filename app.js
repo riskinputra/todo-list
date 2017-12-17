@@ -7,6 +7,7 @@ const mongoose      = require('mongoose');
 // ==============================================
 const index         = require('./routes/index');
 const users         = require('./routes/users');
+const tasks         = require('./routes/tasks');
 // ==============================================
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ================================================
 app.use('/', index);
 app.use('/api/users', users);
+app.use('/api/tasks', tasks);
 // ==================================================
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
