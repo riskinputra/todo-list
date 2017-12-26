@@ -14,8 +14,15 @@ const taskShcema = new Schema ({
     type      : String,
     required  : [true, 'Description required']
   },
-  status    : {
+  latitude    : {
+    type      : Number,
+  },
+  longtitude  : {
+    type      : Number
+  },
+  status      : {
     type      : Boolean,
+    default   : false,
     required  : [true, 'Status required']
   },
   location : {

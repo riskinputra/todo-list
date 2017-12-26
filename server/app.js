@@ -4,22 +4,25 @@ const logger        = require('morgan');
 const cookieParser  = require('cookie-parser');
 const bodyParser    = require('body-parser');
 const mongoose      = require('mongoose');
+const cors          = require('cors')
 // ==============================================
 const index         = require('./routes/index');
 const users         = require('./routes/users');
 const tasks         = require('./routes/tasks');
 // ==============================================
 const app = express();
-
+require('dotenv').config()
 // =============================================
 const db            = mongoose.connection;
-mongoose.connect('localhost:27017/todo_list');
+// mongoose.connect('localhost:27017/todo_list');
+mongoose.connect(`mongodb://admin:${process.env.PASSWORD}@cluster0-shard-00-00-4ut9u.mongodb.net:27017,cluster0-shard-00-01-4ut9u.mongodb.net:27017,cluster0-shard-00-02-4ut9u.mongodb.net:27017/todo?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`);
 // ==============================================
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
 // ================================================
 app.use('/', index);
 app.use('/api/users', users);
@@ -46,7 +49,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  console.log(error);
+  console.log(err);
   res.send('error');
 });
 

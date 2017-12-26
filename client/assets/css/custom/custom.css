@@ -1,0 +1,161 @@
+body{
+  font-size: 18px;
+}
+/* Color */
+.black{
+  color: black;
+}
+.white{
+  color: white !important;
+}
+
+.uk-logo{
+  font-family: 'Quicksand', sans-serif;
+  font-size: 28px;
+  margin-right: 20px;
+}
+
+#navbar-fixed{
+  width: 100%;
+  position: fixed;
+  z-index: 980;
+}
+
+nav ul li{
+  font-size: 12 !important;
+}
+
+.to-top{
+  display: block; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: rgba(214, 213, 213, 0.555); /* Set a background color */
+  color: rgba(255, 255, 255, 0.6); /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 60px; /* Rounded corners */
+  font-size: 24px;
+  border: 1px solid transparent;
+}
+/* Hover + Focus */
+.to-top:hover,
+.to-top:focus {
+  background-color: rgba(226, 226, 226, 0.555);
+  color: rgba(255, 255, 255, 0.6);
+}
+/* OnClick + Active */
+.to-top:active,
+.to-top.uk-active {
+  background-color: rgba(209, 209, 209, 0.555);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+ul li.card-color h3{
+  padding: 10px;
+  background-color: rgb(236, 236, 236);
+}
+
+#username{
+  padding-top: 5px;
+  font-size: 14px;
+}
+
+
+div#loading {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('/assets/image/loader.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
+#img-table img{
+  height: 50px;
+}
+
+th {
+  text-align: center;
+}
+
+#featured-product h2{
+  background-color: rgb(51, 51, 51);
+  color: #fff;
+}
+
+#featured-product img{
+  height: 150px;
+}
+
+/* footer */
+footer{
+  position: relative;
+  height: 20vh;
+  text-align: center;
+  vertical-align: middle;
+	color: #fff;
+	padding: 40px;
+	background-color: #141E30;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+/* Visibility */
+/* Desktop and bigger */
+@media (min-width: 960px) {
+ .uk-visible-small {
+   display: none !important;
+ }
+ .uk-visible-medium {
+   display: none !important;
+ }
+ .uk-hidden-large {
+   display: none !important;
+ }
+}
+/* Tablets portrait */
+@media (min-width: 768px) and (max-width: 959px) {
+ .uk-visible-small {
+   display: none !important;
+ }
+ .uk-visible-large {
+   display: none !important ;
+ }
+ .uk-hidden-medium {
+   display: none !important;
+ }
+}
+/* Phone landscape and smaller*/
+@media (max-width: 767px) {
+ .uk-visible-medium {
+   display: none !important;
+ }
+ .uk-visible-large {
+   display: none !important;
+ }
+ .uk-hidden-small {
+   display: none !important;
+ }
+ .uk-logo img{
+    height: 70%;
+  }
+  #login-content h1{
+    font-size: 20px;
+  }
+  #heading-text h1{
+    padding-top : 30px;
+    font-size: 20px;
+  }
+  #heding-text p{
+    font-size: 14;
+  }
+
+  footer{
+    font-size: 14px;
+  }
+}

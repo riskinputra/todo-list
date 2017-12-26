@@ -1,10 +1,45 @@
 const User      = require('../models/user');
 const bcrypt    = require('bcryptjs');
 const jwt       = require('jsonwebtoken');
+const FB        = require('fb');
 require('dotenv').config()
-// ============================================
-class UserController{
 
+const fb = new FB.Facebook({
+  appId: process.env.APP_ID,
+  cookie: true,
+  xfbml: true,
+  version: 'v2.11'
+})
+// ============================================
+
+class UserController{
+  static fbAccessToken(req, res, next){
+    // console.log(req.body)
+    FB.setAccessToken(req.body.token)
+    next()
+  }
+
+  static login(req, res){
+    // console.log(req.body)
+    req.headers.access = req.body.token
+    FB.api('/me', { fields: 'name,id,email', access_token: req.body.token}, (response)=>{
+      // console.log(response)
+      if(response){
+        User.findOrCreate({
+          name : response.name,
+          email : response.email
+        }, function(err, result){
+          if(!err){  
+            res.status(200).json({
+              data : result
+            })
+          }  
+        })
+      }else{
+        res.status(500).send(err)
+      }
+    });
+  }
   static findAll(req, res){
     User.find()
     .then(result => {
@@ -19,24 +54,7 @@ class UserController{
   }
 
   static create(req, res){
-    let hash  = bcrypt.hashSync(req.body.password, 10)
-    let dataUser   = new User ({
-      email       : req.body.email,
-      username    : req.body.username,
-      password    : hash,
-      role        : req.body.role || 'user'
-    })
-
-    dataUser.save()
-    .then(result => {
-      res.status(200).json({
-        message   : 'Success to create new user',
-        data      : result
-      })
-    })
-    .catch(err => {
-      res.status(500).send(err)
-    })
+    
   }
 
   static findById(req, res){
@@ -53,7 +71,7 @@ class UserController{
   }
 
   static update(req, res){
-    let hash = bcrypt.hashSync(req.params.id, 10)
+    let hash = bcrypt.hashSync(req.params.password, 10)
     User.findById(req.params.id)
     .then(result => {
       result.password = hash || result.password
@@ -70,7 +88,7 @@ class UserController{
       })
     })
     .catch(err => {
-      res.status(500).send(err)
+      res.status(500).send({message : err.message})
     })
   }
 

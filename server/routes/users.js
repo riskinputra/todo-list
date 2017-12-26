@@ -6,7 +6,7 @@ const User = require('../controllers/users')
 module.exports = router
   .get('/', User.findAll)
 
-  .post('/', User.create)
+  .post('/', User.fbAccessToken, User.login)
 
   .get('/:id', User.findById)
 

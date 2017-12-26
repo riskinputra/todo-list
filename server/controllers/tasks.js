@@ -3,7 +3,9 @@ const jwt     = require('jsonwebtoken')
 
 class TaskController{
   static findAll(req, res){
-    Task.find()
+    Task.find({userId: req.query.userId})
+    .populate('userId')
+    .exec()
     .then(results => {
       res.status(200).json({
         message   : 'Tasks',
@@ -19,11 +21,13 @@ class TaskController{
     let dataTask = new Task ({
       userId      : req.body.userId,
       title       : req.body.title,
-      description : res.body.description,
+      description : req.body.description,
       status      : req.body.status,
       location    : req.body.location,
-      startDate   : req.body.startDate,
-      endDate     : req.body.endDate
+      latitude    : req.body.latitude,
+      longtitude  : req.body.longtitude,
+      startDate   : new Date(req.body.startDate).toLocaleString(),
+      endDate     : new Date(req.body.endDate).toLocaleString()
     })
     
     dataTask.save()
@@ -54,18 +58,13 @@ class TaskController{
   static update(req, res){
     Task.findById(req.params.id)
     .then(result => {
-      result.title       = req.body.title || result.title
-      result.description = res.body.description || result.description
       result.status      = req.body.status || result.status
-      result.location    = req.body.location || result.location
-      result.startDate   = req.body.startDate || result.startDate
-      result.endDate     = req.body.endDate || result.endDate
-
+      
       result.save()
       .then(dataTask => {
         res.status(200).json({
-          message   : 'Success to update',
-          data      : dataTask
+          message    : 'Success to update',
+          data       : dataTask
         })
       })
       .catch(err => {
@@ -73,7 +72,7 @@ class TaskController{
       })
     })
     .catch(err => {
-      res.status(500).send(err)
+      res.status(500).send({message : err.message})
     })
   }
 
