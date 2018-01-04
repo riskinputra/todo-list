@@ -191,34 +191,39 @@ export default {
     }
   },
   created () {
-    let user_id = localStorage.getItem('userId')
-    axios.get(`http://localhost:3000/api/tasks?userId=${user_id}`)
-    .then(result => {
-      result.data.data.forEach(task => {
-        let dStartDate = new Date(task.startDate)
-        let dEndDate = new Date(task.endDate)
-        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        let months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '11']
-        let setStartDate = `${days[dStartDate.getDay()]}, ${months[dStartDate.getMonth()]}/${dStartDate.getDate()}/${dStartDate.getFullYear()}`
-        let setEndDate = `${days[dEndDate.getDay()]}, ${months[dEndDate.getMonth()]}/${dEndDate.getDate()}/${dEndDate.getFullYear()}`
-        let items = {
-          id: task._id,
-          title: task.title,
-          description: task.description,
-          location: task.location,
-          latitude: task.latitude,
-          longtitude: task.longtitude,
-          startDate: setStartDate,
-          endDate: setEndDate,
-          status: task.status
-        }
-        this.dataTask.push(items)
-        console.log(items)
+    if (localStorage.getItem('userId')) {
+      this.loginView = false
+      this.logoutMenu = true
+
+      let userID = localStorage.getItem('userId')
+      axios.get(`http://35.197.159.250:3002/api/tasks?userId=${userID}`)
+      .then(result => {
+        result.data.data.forEach(task => {
+          let dStartDate = new Date(task.startDate)
+          let dEndDate = new Date(task.endDate)
+          let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+          let months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '11']
+          let setStartDate = `${days[dStartDate.getDay()]}, ${months[dStartDate.getMonth()]}/${dStartDate.getDate()}/${dStartDate.getFullYear()}`
+          let setEndDate = `${days[dEndDate.getDay()]}, ${months[dEndDate.getMonth()]}/${dEndDate.getDate()}/${dEndDate.getFullYear()}`
+          let items = {
+            id: task._id,
+            title: task.title,
+            description: task.description,
+            location: task.location,
+            latitude: task.latitude,
+            longtitude: task.longtitude,
+            startDate: setStartDate,
+            endDate: setEndDate,
+            status: task.status
+          }
+          this.dataTask.push(items)
+          console.log(items)
+        })
       })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .catch(err => {
+        console.log(err)
+      })
+    }
 
     window.fbAsyncInit = function() {
       FB.init({
@@ -248,10 +253,6 @@ export default {
         // $('#logout').show()
       }
     }
-    if (localStorage.getItem('userId')) {
-      this.loginView = false
-      this.logoutMenu = true
-    }
   },
   methods: {
     setPlace (place) {
@@ -273,7 +274,7 @@ export default {
       FB.login(function (response) {
         // console.log(response.authResponse.accessToken)
         if (response.authResponse) {
-          axios.post('http://localhost:3000/api/users/', {
+          axios.post('http://35.197.159.250:3002/api/users/', {
             token: response.authResponse.accessToken
           })
           .then(result => {
@@ -293,7 +294,7 @@ export default {
     },
     addTask (event) {
       event.preventDefault()
-      axios.post('http://localhost:3000/api/tasks/', {
+      axios.post('http://35.197.159.250:3002/api/tasks/', {
         userId: localStorage.getItem('userId'),
         title: this.title,
         description: this.description,
@@ -322,7 +323,7 @@ export default {
     },
     editTask (id) {
       console.log(id)
-      axios.put(`http://localhost:3000/api/tasks/${id}`, {
+      axios.put(`http://35.197.159.250:3002/api/tasks/${id}`, {
         status: this.status
       })
       .then(result => {
@@ -335,7 +336,7 @@ export default {
     },
     deleteTask (id) {
       console.log(id)
-      axios.delete(`http://localhost:3000/api/tasks/${id}`)
+      axios.delete(`http://35.197.159.250:3002/api/tasks/${id}`)
       .then(result => {
         console.log(result)
         location.reload()
